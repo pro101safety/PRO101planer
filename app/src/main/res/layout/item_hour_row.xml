@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/hour_label"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="00:00"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/black"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeStepGranularity="1sp" />
+
+    <EditText
+        android:id="@+id/hour_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:hint="@string/hour_hint"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="4"
+        android:minHeight="40dp"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:textAppearance="?attr/textAppearanceBody1" />
+
+    <CheckBox
+        android:id="@+id/done_checkbox"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="4dp"
+        android:buttonTint="@color/color_primary" />
+
+    <ImageButton
+        android:id="@+id/reminder_button"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/reminder_content_description"
+        android:padding="4dp"
+        android:src="@android:drawable/ic_lock_idle_alarm"
+        android:visibility="gone" />
+</LinearLayout>
+

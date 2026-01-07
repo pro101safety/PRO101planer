@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_templates" android:title="@string/nav_templates" />
+        <item
+            android:id="@+id/nav_divider_templates_documents"
+            android:checkable="false"
+            android:enabled="false"
+            android:icon="@null"
+            android:title=""
+            app:actionLayout="@layout/item_nav_divider" />
+
+        <item android:id="@+id/nav_documents" android:title="@string/nav_documents" />
+        <item
+            android:id="@+id/nav_divider_documents_siz"
+            android:checkable="false"
+            android:enabled="false"
+            android:icon="@null"
+            android:title=""
+            app:actionLayout="@layout/item_nav_divider" />
+
+        <item android:id="@+id/nav_siz" android:title="@string/nav_siz" />
+        <item
+            android:id="@+id/nav_divider_siz_checks"
+            android:checkable="false"
+            android:enabled="false"
+            android:icon="@null"
+            android:title=""
+            app:actionLayout="@layout/item_nav_divider" />
+
+        <item android:id="@+id/nav_checks" android:title="@string/nav_checks" />
+    </group>
+
+</menu>

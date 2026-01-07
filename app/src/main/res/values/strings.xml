@@ -1,0 +1,223 @@
+<resources>
+    <string name="app_name">PRO101 ПЛАНЕР</string>
+    <string name="nav_home">Главная</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_about">О приложении</string>
+    <string name="nav_pz">ПЗ по ОТ</string>
+    <string name="nav_instr">Инструктажи</string>
+    <string name="nav_suot">СУОТ</string>
+    <string name="nav_docs">Документы</string>
+    <string name="nav_siz">Справочник СОТ</string>
+    <string name="nav_nnt">ННТ</string>
+    <string name="nav_checks">Планы проверок</string>
+    <string name="drawer_open">Открыть меню</string>
+    <string name="drawer_close">Закрыть меню</string>
+    <string name="nav_header_title">PRO101 ПЛАНЕР</string>
+    <string name="nav_header_subtitle">Ваш ежедневник по охране труда</string>
+    <string name="hour_hint">Добавьте запись</string>
+    <string name="reminder_content_description">Установить напоминание</string>
+    <string name="reminder_dialog_title">Напоминание</string>
+    <string name="reminder_at_time">Вовремя</string>
+    <string name="reminder_before_15">За 15 минут заранее</string>
+    <string name="reminder_before_30">За 30 минут заранее</string>
+    <string name="reminder_before_60">За час заранее</string>
+    <string name="reminder_remove">Снять напоминание</string>
+    <string name="reminder_set_success">Напоминание установлено</string>
+    <string name="reminder_removed">Напоминание снято</string>
+    <string name="reminder_need_text">Сначала добавьте текст</string>
+    <string name="reminder_in_past">Время напоминания уже прошло</string>
+    <string name="notification_channel_name">Напоминания</string>
+    <string name="notification_channel_description">Уведомления о задачах по часам</string>
+    <string name="notification_permission_denied">Разрешите уведомления, чтобы получать напоминания</string>
+    <string name="menu_about">О приложении</string>
+    <string name="menu_contacts">Контакты</string>
+    <string name="menu_backup">Резервное копирование</string>
+    <string name="backup_placeholder">Раздел резервного копирования будет добавлен позже.</string>
+    <string name="contacts_title">Контакты</string>
+    <string name="contacts_dev_title">Связь с разработчиком</string>
+    <string name="contacts_email">killman.instruct@gmail.com</string>
+    <string name="contacts_email_title">Выберите почтовое приложение</string>
+    <string name="contacts_services_title">Комплекс услуг по охране труда</string>
+    <string name="contacts_services_link">https://instruction-ot.by/</string>
+    <string name="contacts_tg_channel_title">Telegram канал</string>
+    <string name="contacts_tg_channel_link">https://t.me/pro101safety</string>
+    <string name="contacts_tg_ads_title">Telegram по вопросам рекламы</string>
+    <string name="contacts_tg_ads_link">https://t.me/Pro101</string>
+    <string name="nav_documents">Мои документы по охране труда</string>
+    <string name="documents_title">Мои документы</string>
+    <string name="documents_add_folder">Добавить папку</string>
+    <string name="documents_add_file">Загрузить файл</string>
+    <string name="documents_folder_root">Корень</string>
+    <string name="documents_file_delete_confirm">Удалить файл?</string>
+    <string name="documents_file_types">application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/pdf,image/jpeg,image/png,image/webp</string>
+    <string name="documents_hint_card">Здесь вы можете создавать каталоги папок, как в windows нажатием иконки "+". В эти папки можно загружать ваши документы формата word, excel, pdf и картинки. Для всех документов можно установить напоминания.</string>
+    <string name="mode_day">День</string>
+    <string name="quick_tasks_label">Мои задачи на день</string>
+    <string name="azbuka_title">АЗБУКА охраны труда</string>
+    <string name="azbuka_description">Бесплатный мобильный инструмент для подготовки к инструктажам по охране труда. Инфографика, викторины по вопросам охраны труда.</string>
+    <string name="azbuka_link">https://play.google.com/store/search?q=%D0%B0%D0%B7%D0%B1%D1%83%D0%BA%D0%B0%20%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D1%8B%20%D1%82%D1%83%D1%80%D0%B4%D0%B0&amp;c=apps&amp;hl=ru</string>
+    <string name="paperka_title">ПАПЕРКА по охране труда</string>
+    <string name="paperka_description">Бесплатный мобильный инструмент все НПА по охране труда в кармане. Блокнот СОТа - фото и текстовые заметки.</string>
+    <string name="paperka_link">https://play.google.com/store/search?q=%D0%9F%D0%B0%D0%BF%D0%B5%D1%80%D0%BA%D0%B0%20%D0%BF%D0%BE%20%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D0%B5%20%D1%82%D1%80%D1%83%D0%B4%D0%B0&amp;c=apps&amp;hl=ru</string>
+    <string name="menu_search">Поиск</string>
+    <string name="menu_how_it_works">Как это работает?</string>
+    <string name="search_hint">Поиск по записям</string>
+    <string name="search_no_results">Ничего не найдено</string>
+    <string name="search_results_title">Результаты поиска</string>
+    <string name="version_title">Версия</string>
+    <string name="version_value">1.0</string>
+    <string name="privacy_title">Политика конфиденциальности мобильного приложения PRO101 ПЛАНЕР по охране труда</string>
+    <string name="privacy_text">«PRO101 ПЛАНЕР» это мобильное приложение для планирования работы специалистов/инженеров по охране труда, должностных лиц ответственных за организацию охраны труда.
+\n\nИсточник финансирования на поддержку работоспособности мобильного приложения "PRO101 ПЛАНЕР " - исключительно собственные финансовые средства разработчика.
+\n\nОТКАЗ ОТ ОТВЕТСТВЕННОСТИ:
+\n\n(1) Разработчик не несет ответственности за содержание любых комментариев, размещенных на любом интернет ресурсе, доступных по гиперссылкам, или СМИ в отношении мобильного приложения " PRO101 ПЛАНЕР ";
+\n\n(2) Ни информация, содержащаяся в мобильном приложении " PRO101 ПЛАНЕР ", ни ее использование пользователем Google Play и иных интернет ресурсов, не создают договора или отношений между разработчиком и пользователем;
+\n\n(3) Устанавливая мобильное приложение " PRO101 ПЛАНЕР " на свое мобильное устройство, пользователь целиком и полностью соглашается с данной политикой конфиденциальности;
+\n\n(4) Мобильное приложение " PRO101 ПЛАНЕР " не собирает, не использует, не хранит и не передает данные пользователя;
+\n\n(5) Мобильное приложение " PRO101 ПЛАНЕР " использует технические меры безопасности для защиты вашей личной информации от несанкционированного доступа, использования или разглашения. Однако ни один метод электронного хранения не является на 100% безопасным;
+\n\n(6) Разработчик может периодически обновлять свою Политику конфиденциальности.
+\n\n(7) Если у вас возникнут какие-либо вопросы относительно данной Политики конфиденциальности или моей практики, пожалуйста, не стесняйтесь обращаться ко мне:
+\n\nE-mail: killman.instruct@gmail.com</string>
+    <string name="how_it_works_title">Как это работает?</string>
+    <string name="how_it_works_text">    1. На главном экране отображается текущий день. Вы можете быстро ввести текст без необходимости подтверждающих действий в виде «Сохранить» и т.п. Введенный текст сохраняется автоматически. Удалить текст можно также быстро без проблем. Это просто функция блокнота.
+\n\n    2. Поставив галочку напротив текста, он становится перечёркнутым, что свидетельствует о выполнении задачи.
+\n\n    3. При необходимости установить напоминание на конкретную дату, вы можете нажать внизу справа на главном экране иконку «+»: выбрать дату, время, необходимость повторения задачи.
+\n\n    4. Аналогичный функционал доступен справа (иконка будильника) от внесённой записи на главном экране.
+\n\n    5. По всем сохраненным задачам можно осуществить поиск с быстрым переходом к искомой задаче. Вверху иконка лупы.
+\n\n    6. В меню (три точки справа вверху) есть возможность сохранить резервную копию всех задач или загрузить её. Полезно, если вы решили сменить своё android устройство и не потерять свои сохранённые планы.
+\n\n    7. В меню слева присутствуют разделы:
+\n\n    7.1. Типовые задачи. В данном разделе можно быстро установить напоминание по операционным задачам в области охраны труда, а также добавить (нажать на «+») свои уникальные задачи.
+\n\n    7.2. Справочник СОТ – активная ссылка справочник специалиста по охране труда, расположенного на ресурсе Охрана труда в Беларуси – https://otb.by/spec/
+\n\n    7.3. Планы проверок – активные ссылки на Планы выборочных проверок и Планы проверок технической инспекции ФПБ.
+\n\n    7.4. Мои документы – в данном разделе вы можете создавать папки (нажав на «+») и подпапки (аналогично, как и в ОС Windows). В эти папки вы можете загружать свои документы формата: word, excel, pdf и фото. На каждый загруженный документ вы можете установить напоминание. При необходимости, вы можете удалить документ из программы нажав на иконку урны.
+\n\n    Важно! Открытие (просмотр) загружаемого вами документа доступен сторонними приложениями установленными на вашем мобильном устройстве. PRO101 ПЛАНЕР не имеет функционала просмотра и редактирования документов.
+\n\n    Все загружаемые вами документы хранятся локально на вашем устройстве. Разработчик не имеет к ним доступа.</string>
+    <string name="today_button">Сегодня</string>
+    <string name="folder_add_title">Новая папка</string>
+    <string name="folder_add_action">Добавить</string>
+    <string name="folder_empty_name">Введите название папки</string>
+    <string name="folder_name_hint">Название папки</string>
+    <string name="folder_root">Корень</string>
+    <string name="plan_selective">Планы выборочных проверок</string>
+    <string name="plan_selective_desc">Ссылка на планы выборочных проверок</string>
+    <string name="plan_inspection">Планы проверок технической инспекции ФПБ</string>
+    <string name="plan_inspection_desc">Ссылка на планы проверок технической инспекции ФПБ</string>
+    <string name="backup_export">Сохранить резервную копию</string>
+    <string name="backup_import">Загрузить из файла</string>
+    <string name="backup_export_ok">Резервная копия сохранена</string>
+    <string name="backup_export_fail">Не удалось сохранить копию</string>
+    <string name="backup_import_ok">Данные восстановлены</string>
+    <string name="backup_import_fail">Не удалось восстановить данные</string>
+    <string name="backup_hint">Если вы планируете сменить устройство (телефон), то здесь можно выгрузить резервную копию напоминаний и загрузить её на другое устройство с установленным PRO101ПЛАНЕР.</string>
+    <string name="folder_rename">Переименовать</string>
+    <string name="folder_delete">Удалить</string>
+    <string name="reminder_exact_alarm_request">Разрешите точные будильники, чтобы установить напоминание</string>
+    <string name="reminder_exact_alarm_unavailable">Не удалось открыть настройки точных будильников</string>
+    <string name="quick_task_title">Новая задача</string>
+    <string name="quick_task_save">Сохранить</string>
+    <string name="siz_title">Справочник СОТ</string>
+    <string name="siz_desc">Перейти к справочнику специалиста по охране труда на otb.by</string>
+    <string name="siz_spec_title">Проверить СИЗ в Справочнике специалиста по охране труда</string>
+    <string name="reminder_repeat_title">Повторять</string>
+    <string name="reminder_repeat_none">Не повторять</string>
+    <string name="reminder_repeat_hour">Каждый час</string>
+    <string name="reminder_repeat_day">Каждый день</string>
+    <string name="reminder_repeat_week">Каждую неделю</string>
+    <string name="reminder_repeat_month">Каждый месяц</string>
+    <string name="reminder_repeat_quarter">Каждый квартал</string>
+    <string name="reminder_repeat_year">Каждый год</string>
+    <string name="note_add">Добавить заметку</string>
+    <string name="note_add_text">Текстовая заметка</string>
+    <string name="note_add_photo">Фото заметка</string>
+    <string name="note_text_hint">Текст заметки</string>
+    <string name="note_added">Заметка сохранена</string>
+    <string name="note_delete_confirm">Удалить заметку?</string>
+    <string name="note_pick_image">Выберите изображение</string>
+    <string name="exit_toast_reminders">Напоминания установлены, теперь можно бахнуть кофейку:)</string>
+    <string name="templates_add">Добавить запись</string>
+    <string name="templates_task_hint">Новая строка</string>
+    <string name="templates_remove_confirm">Удалить запись?</string>
+    <string name="templates_title_pz">№1 ПЗ по ОТ</string>
+    <string name="templates_title_instr">№2 ИНСТРУКТАЖИ по ОТ</string>
+    <string name="templates_title_staj">№3 СТАЖИРОВКА по ОТ</string>
+    <string name="templates_title_obuchenie">№4 ОБУЧЕНИЕ по ОТ</string>
+    <string name="templates_title_instr_docs">№5 ИНСТРУКЦИИ по ОТ</string>
+    <string name="templates_title_suot">№6 СУОТ</string>
+    <string name="templates_title_med">№7 МЕДОСМОТРЫ</string>
+    <string name="templates_title_control">№8 КОНТРОЛЬ</string>
+    <string name="templates_title_siz">№9 СИЗ и МЫЛО</string>
+    <string name="templates_title_plan_ot">№10 ПЛАН МЕРОПРИЯТИЙ по ОТ</string>
+    <string name="templates_title_orders">№11 ПРИКАЗЫ по ОТ</string>
+    <string name="templates_title_attest">№12 АТТЕСТАЦИЯ</string>
+    <string name="templates_title_reports">№13  ОТЧЕТЫ</string>
+    <string name="templates_title_buildings">№14 ОСМОТР ЗДАНИЙ</string>
+    <string name="templates_title_milk">№15 МОЛОКО И ПИТАНИЕ</string>
+    <string name="templates_pz_1">1.1. ПЗ по ОТ руководителя.</string>
+    <string name="templates_pz_2">1.2. ПЗ по ОТ членов комиссии.</string>
+    <string name="templates_pz_3">1.3. ПЗ по ОТ специалистов.</string>
+    <string name="templates_pz_4">1.4. ПЗ по ОТ профессии.</string>
+    <string name="templates_instr_1">2.1. Вводный.</string>
+    <string name="templates_instr_2">2.2. Первичный.</string>
+    <string name="templates_instr_3">2.3. Повторный (1 р. в 6 мес).</string>
+    <string name="templates_instr_4">2.4. Внеплановый.</string>
+    <string name="templates_instr_5">2.5. Целевой.</string>
+    <string name="templates_staj_1">3.1. От 2х рабочих дней</string>
+    <string name="templates_obuch_1">4.1. Подготовка.</string>
+    <string name="templates_obuch_2">4.2. Переподготовка.</string>
+    <string name="templates_obuch_3">4.3. Повышение квалификации.</string>
+    <string name="templates_obuch_4">4.4. Обучающие курсы.</string>
+    <string name="templates_obuch_5">4.5. Курсы целевого назначения.</string>
+    <string name="templates_obuch_6">4.6. В объёме не менее 10 часов.</string>
+    <string name="templates_obuch_7">4.7. В объёме не менее 60 часов.</string>
+    <string name="templates_obuch_8">4.8. В объёме не менее 20 часов.</string>
+    <string name="templates_instrdoc_1">5.1. Пересмотр 1 раз в 5 лет.</string>
+    <string name="templates_instrdoc_2">5.2. Пересморт 1 раз в 3 года.</string>
+    <string name="templates_suot_1">6.1. Актуализация Политики.</string>
+    <string name="templates_suot_2">6.2. Актуализация Стандартов.</string>
+    <string name="templates_suot_3">6.3. Актуализация карт рисков.</string>
+    <string name="templates_suot_4">6.4. Аудит.</string>
+    <string name="templates_med_1">7.1. Периодический.</string>
+    <string name="templates_med_2">7.2. Освидетельствование.</string>
+    <string name="templates_med_3">7.3. Предрейсовые.</string>
+    <string name="templates_med_4">7.4. Пополнение аптечек.</string>
+    <string name="templates_control_1">8.1. Ежедневный.</string>
+    <string name="templates_control_2">8.2. Ежемесячный.</string>
+    <string name="templates_control_3">8.3. Ежеквартальный.</string>
+    <string name="templates_control_4">8.4. День охраны труда 1 р. в 6 мес.</string>
+    <string name="templates_siz_1">9.1. Стирка СИЗ.</string>
+    <string name="templates_siz_2">9.2. Холодный период +10 и ниже.</string>
+    <string name="templates_siz_3">9.3. Обеспечение мылом.</string>
+    <string name="templates_siz_4">9.4. Обеспечение кремами.</string>
+    <string name="templates_siz_5">9.5. Срок носки СИЗ.</string>
+    <string name="templates_planot_1">10.1. План мероприятий годовой.</string>
+    <string name="templates_planot_2">10.2. План мероприятий (аттестация).</string>
+    <string name="templates_orders_1">11.1. Приказ об организации ОТ.</string>
+    <string name="templates_orders_2">11.2. Приказ за состояние ОТ.</string>
+    <string name="templates_orders_3">11.3. Приказы по видам работ.</string>
+    <string name="templates_orders_4">11.4. Приказ о комиссии для ПЗ по ОТ.</string>
+    <string name="templates_attest_1">12.1. Аттестация рабочих мест.</string>
+    <string name="templates_reports_1">13.1. Форма 2-условия труда.</string>
+    <string name="templates_reports_2">13.2. Форма 4 Улучшение условий и ОТ.</string>
+    <string name="templates_buildings_1">14.1. Весенний.</string>
+    <string name="templates_buildings_2">14.2. Осенний.</string>
+    <string name="templates_milk_1">15.1. Выдача молока.</string>
+    <string name="templates_title_fire">№16 ПОЖАРНАЯ БЕЗОПАСНОСТЬ</string>
+    <string name="templates_fire_1">16.1. Задача по пожарной безопасности.</string>
+    <string name="templates_title_industrial">№17 ПРОМЫШЛЕННАЯ БЕЗОПАСНОСЬ</string>
+    <string name="templates_industrial_1">17.1. Задача по промышленной безопасности.</string>
+    <string name="templates_title_ecology">№18 ЭКОЛОГИЯ</string>
+    <string name="templates_ecology_1">18.1. Задача по экологии.</string>
+    <string name="templates_title_electro">№19 ЭЛЕКТРОБЕЗОПАСНОСТЬ</string>
+    <string name="templates_electro_1">19.1. Задача по электробезопасности.</string>
+    <string name="templates_title_radiation">№20 РАДИАЦИОННАЯ БЕЗОПАСНОСТЬ</string>
+    <string name="templates_radiation_1">20.1. Задача по радиационной безопасности.</string>
+    <string name="templates_title_civil">№21 ГРАЖДАНСКАЯ ОБОРОНА</string>
+    <string name="templates_civil_1">21.1. Задача по гражданской обороне.</string>
+    <string name="widget_title">PRO101 ПЛАНЕР</string>
+    <string name="widget_empty">Нет задач на этот день</string>
+    <string name="widget_today">Сегодня</string>
+    <string name="widget_add">Добавить</string>
+    <string name="widget_refresh">Обновить</string>
+    <string name="nav_templates">Типовые задачи по охране труда</string>
+    <string name="templates_section_label">Типовые задачи</string>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/document_file_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@android:drawable/ic_menu_save"
+            android:tint="@color/color_primary" />
+
+        <TextView
+            android:id="@+id/document_file_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <ImageButton
+            android:id="@+id/document_file_reminder_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/reminder_dialog_title"
+            android:src="@android:drawable/ic_menu_recent_history" />
+
+        <ImageButton
+            android:id="@+id/document_file_delete_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/folder_delete"
+            android:src="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/document_file_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="2dp"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/color_primary"
+        android:visibility="gone" />
+</LinearLayout>
+

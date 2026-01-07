@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#4AA7A7</color>
+    <color name="color_primary_variant">#3B8E90</color>
+    <color name="color_secondary">#4AA7A7</color>
+    <color name="color_secondary_variant">#3B8E90</color>
+    <color name="color_background">#E9F3F3</color>
+    <color name="logo_background">#D7EBEA</color>
+    <color name="logo_primary">#4AA7A7</color>
+    <color name="color_divider">#334AA7A7</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

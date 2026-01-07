@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Planer">
+
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ContactsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".BackupActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".NotesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TemplateTasksActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DocumentsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".FolderActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PlansActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".HowItWorksActivity"
+            android:exported="false" />
+
+        <!-- Widget temporarily removed -->
+
+        <activity
+            android:name=".SizActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Planer.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Planer" />
+
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>

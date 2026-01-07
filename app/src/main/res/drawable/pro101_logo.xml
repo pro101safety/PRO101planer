@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer teal circle -->
+    <path
+        android:fillColor="@color/logo_primary"
+        android:pathData="M54,4A50,50 0 1,0 54,104A50,50 0 1,0 54,4z" />
+
+    <!-- Shoe / ear protector silhouette approximation -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M32,56 L26,66 L32,70 L40,58 L46,58 L52,50 L60,46 L58,40 L52,40 L42,44 L36,52 z" />
+
+    <!-- Signal arcs -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M68,44 A18,18 0 0,1 90,66 L84,66 A12,12 0 0,0 68,50 z" />
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M68,36 A26,26 0 0,1 98,66 L92,66 A20,20 0 0,0 68,42 z" />
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M68,28 A34,34 0 0,1 106,66 L100,66 A28,28 0 0,0 68,34 z" />
+
+    <!-- Small circle -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M60,64 A5,5 0 1,0 70,64 A5,5 0 1,0 60,64 z" />
+
+    <!-- Text substitute PRO101 -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M26,86 L26,74 L36,74 Q42,74 42,80 Q42,86 36,86 L30,86 L30,90 L26,90 z
+                          M30,82 L35,82 Q38,82 38,80 Q38,78 35,78 L30,78 z
+                          M46,90 L46,74 L56,74 Q60,74 62,76 Q64,78 64,81 Q64,84 62,86 Q60,88 56,88 L50,88 L50,90 z
+                          M50,84 L56,84 Q58,84 59,83 Q60,82 60,81 Q60,80 59,79 Q58,78 56,78 L50,78 z
+                          M70,90 L70,74 L74,74 L74,90 z
+                          M82,90 L78,86 L78,82 Q78,78 80,76 Q82,74 86,74 Q90,74 92,76 Q94,78 94,82 L94,86 L90,90 L88,88 L86,90 z
+                          M86,78 Q84,78 83,79 Q82,80 82,82 L82,85 L86,88 L90,85 L90,82 Q90,80 89,79 Q88,78 86,78 z" />
+</vector>
+
