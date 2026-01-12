@@ -75,6 +75,10 @@ public class PlannerEntry {
         return jsonObject;
     }
 
+    /**
+     * Creates PlannerEntry from JSON with backward compatibility.
+     * Uses opt* methods to handle missing fields gracefully.
+     */
     public static PlannerEntry fromJson(JSONObject jsonObject) throws JSONException {
         PlannerEntry entry = new PlannerEntry();
         entry.text = jsonObject.optString("text", "");

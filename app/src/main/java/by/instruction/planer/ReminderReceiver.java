@@ -24,6 +24,7 @@ public class ReminderReceiver extends BroadcastReceiver {
     public static final String EXTRA_TRIGGER_AT = "extra_trigger_at";
     public static final String EXTRA_OFFSET = "extra_offset";
     public static final String EXTRA_SKIP_SAVE = "extra_skip_save";
+    public static final String EXTRA_EVENT_REMINDER_AT = "extra_event_reminder_at";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,6 +35,21 @@ public class ReminderReceiver extends BroadcastReceiver {
         long triggerAt = intent.getLongExtra(EXTRA_TRIGGER_AT, -1);
         int offsetMinutes = intent.getIntExtra(EXTRA_OFFSET, 0);
         boolean skipSave = intent.getBooleanExtra(EXTRA_SKIP_SAVE, false);
+        long eventReminderAt = intent.getLongExtra(EXTRA_EVENT_REMINDER_AT, -1);
+
+        // Create intent to open MainActivity with event details
+        Intent openAppIntent = new Intent(context, MainActivity.class);
+        if (eventReminderAt > 0) {
+            openAppIntent.putExtra(EXTRA_EVENT_REMINDER_AT, eventReminderAt);
+        }
+        openAppIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                notificationId,
+                openAppIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -41,9 +57,14 @@ public class ReminderReceiver extends BroadcastReceiver {
                 .setContentText(message == null ? "" : message)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message == null ? "" : message))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
 
-        NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+        try {
+            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+        } catch (SecurityException e) {
+            // Permission might have been revoked, ignore
+        }
 
         if (recurrence > 0 && triggerAt > 0) {
             Calendar next = Calendar.getInstance();
@@ -79,11 +100,12 @@ public class ReminderReceiver extends BroadcastReceiver {
             nextIntent.putExtra(EXTRA_TRIGGER_AT, next.getTimeInMillis());
             nextIntent.putExtra(EXTRA_OFFSET, offsetMinutes);
             nextIntent.putExtra(EXTRA_SKIP_SAVE, skipSave);
+            nextIntent.putExtra(EXTRA_EVENT_REMINDER_AT, eventReminderAt);
 
             Calendar reminderTime = (Calendar) next.clone();
             reminderTime.add(Calendar.MINUTE, -offsetMinutes);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(
                     context,
                     notificationId,
                     nextIntent,
@@ -92,7 +114,7 @@ public class ReminderReceiver extends BroadcastReceiver {
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null) {
-                AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, reminderTime.getTimeInMillis(), pendingIntent);
+                AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, reminderTime.getTimeInMillis(), alarmPendingIntent);
             }
 
             // duplicate task entry for next occurrence (unless explicitly skipped)

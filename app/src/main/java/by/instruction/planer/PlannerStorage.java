@@ -16,10 +16,22 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Storage for planner entries with backward compatibility.
+ *
+ * IMPORTANT: When making changes that affect data storage:
+ * 1. NEVER change PREF_NAME - it will cause data loss
+ * 2. Use data versioning for structural changes
+ * 3. Keep JSON field names consistent
+ * 4. Use opt* methods in fromJson() for new fields
+ * 5. Test data migration thoroughly
+ */
 public class PlannerStorage {
 
     public static final String PREF_NAME = "planner_prefs";
     public static final String KEY_ENTRIES = "entries";
+    public static final String KEY_DATA_VERSION = "data_version";
+    public static final int CURRENT_DATA_VERSION = 1;
 
     private final SharedPreferences preferences;
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -28,7 +40,24 @@ public class PlannerStorage {
 
     public PlannerStorage(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        checkDataVersion();
         load();
+    }
+
+    private void checkDataVersion() {
+        int storedVersion = preferences.getInt(KEY_DATA_VERSION, 0);
+        if (storedVersion < CURRENT_DATA_VERSION) {
+            // Perform data migration if needed
+            migrateData(storedVersion);
+            // Update version
+            preferences.edit().putInt(KEY_DATA_VERSION, CURRENT_DATA_VERSION).apply();
+        }
+    }
+
+    private void migrateData(int fromVersion) {
+        // Future migrations can be added here
+        // For now, data format is backward compatible
+        android.util.Log.i("PlannerStorage", "Migrating data from version " + fromVersion + " to " + CURRENT_DATA_VERSION);
     }
 
     public static class SearchResult {
@@ -64,6 +93,48 @@ public class PlannerStorage {
 
     public PlannerEntry getEntry(java.util.Calendar day, int hour) {
         return cache.get(makeKey(day, hour));
+    }
+
+    public PlannerEntry findEntryByReminderAtMillis(long reminderAtMillis) {
+        for (PlannerEntry entry : cache.values()) {
+            if (entry != null && entry.getReminderAtMillis() != null &&
+                entry.getReminderAtMillis() == reminderAtMillis) {
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    public static class EventLocation {
+        public final java.util.Calendar day;
+        public final int hour;
+
+        public EventLocation(java.util.Calendar day, int hour) {
+            this.day = day;
+            this.hour = hour;
+        }
+    }
+
+    public EventLocation findEventLocationByReminderAtMillis(long reminderAtMillis) {
+        for (Map.Entry<String, PlannerEntry> entry : cache.entrySet()) {
+            PlannerEntry value = entry.getValue();
+            if (value != null && value.getReminderAtMillis() != null &&
+                value.getReminderAtMillis() == reminderAtMillis) {
+                Matcher m = keyPattern.matcher(entry.getKey());
+                if (m.matches()) {
+                    try {
+                        String dateStr = m.group(1);
+                        int hour = Integer.parseInt(m.group(2));
+                        java.util.Calendar day = java.util.Calendar.getInstance();
+                        day.setTime(dateFormatter.parse(dateStr));
+                        return new EventLocation(day, hour);
+                    } catch (Exception e) {
+                        // Ignore parsing errors
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public void saveEntry(java.util.Calendar day, int hour, String text, Integer reminderOffsetMinutes, Long reminderAtMillis, Integer recurrenceType, Boolean done) {
@@ -121,9 +192,16 @@ public class PlannerStorage {
             while (keys.hasNext()) {
                 String key = keys.next();
                 JSONObject entryObject = stored.getJSONObject(key);
-                cache.put(key, PlannerEntry.fromJson(entryObject));
+                try {
+                    cache.put(key, PlannerEntry.fromJson(entryObject));
+                } catch (JSONException e) {
+                    // Skip corrupted entries instead of clearing all data
+                    android.util.Log.w("PlannerStorage", "Skipping corrupted entry: " + key);
+                }
             }
         } catch (JSONException e) {
+            // Try to migrate old format or clear cache as last resort
+            android.util.Log.e("PlannerStorage", "Failed to load data, clearing cache");
             cache.clear();
         }
     }

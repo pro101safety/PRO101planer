@@ -10,6 +10,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -42,6 +43,8 @@ import androidx.core.app.AlarmManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.activity.EdgeToEdge;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.annotation.RequiresApi;
 
@@ -54,11 +57,13 @@ import java.util.Objects;
 import android.graphics.Paint;
 
 import by.instruction.planer.ReminderConfig;
+import by.instruction.planer.ReminderReceiver;
 import by.instruction.planer.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_POST_NOTIFICATIONS = 5001;
+    private static final int REQUEST_EXPORT_FILE = 6001;
     private static final int[] REMINDER_OFFSETS = ReminderConfig.REMINDER_OFFSETS;
 
     private ActivityMainBinding binding;
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private LayoutInflater inflater;
     private GestureDetectorCompat gestureDetector;
     private int dayOffset = 0;
+    private String exportDataCache;
 
     private final String[] dayTitles = new String[]{
             "Понедельник",
@@ -81,8 +87,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Handle insets for AppBarLayout to prevent overlap with system bars
+        binding.appBarLayout.setOnApplyWindowInsetsListener((v, insets) -> {
+            WindowInsetsCompat windowInsets = WindowInsetsCompat.toWindowInsetsCompat(insets);
+            int statusBarHeight = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+            int displayCutoutInset = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout()).top;
+
+            // Apply padding to AppBarLayout to account for status bar and display cutout
+            int topInset = Math.max(statusBarHeight, displayCutoutInset);
+            v.setPadding(v.getPaddingLeft(), topInset, v.getPaddingRight(), v.getPaddingBottom());
+
+            return insets;
+        });
 
         inflater = LayoutInflater.from(this);
         storage = new PlannerStorage(this);
@@ -95,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         requestNotificationPermission();
         binding.contentContainer.setNestedScrollingEnabled(false);
+
+        // Handle notification click
+        handleNotificationIntent(getIntent());
+
         binding.contentContainer.post(this::buildDayScreen);
 
         binding.todayButton.setOnClickListener(v -> {
@@ -104,6 +128,91 @@ public class MainActivity extends AppCompatActivity {
 
         binding.prevButton.setOnClickListener(v -> changeDay(-1));
         binding.nextButton.setOnClickListener(v -> changeDay(1));
+        binding.exportButton.setOnClickListener(v -> exportCurrentDayTasks());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotificationIntent(intent);
+    }
+
+    private void handleNotificationIntent(Intent intent) {
+        if (intent != null) {
+            // Handle widget navigation
+            if (intent.hasExtra("widget_day_offset")) {
+                int widgetDayOffset = intent.getIntExtra("widget_day_offset", 0);
+                int widgetTargetHour = intent.getIntExtra("widget_target_hour", -1);
+
+                dayOffset = widgetDayOffset;
+                buildDayScreen();
+
+                if (widgetTargetHour >= 0) {
+                    binding.contentContainer.post(() -> {
+                        scrollToDayHour(0, widgetTargetHour);
+                        highlightEventAtHour(widgetTargetHour);
+                    });
+                }
+                return;
+            }
+
+            // Handle notification navigation
+            if (intent.hasExtra(ReminderReceiver.EXTRA_EVENT_REMINDER_AT)) {
+                long eventReminderAtMillis = intent.getLongExtra(ReminderReceiver.EXTRA_EVENT_REMINDER_AT, -1);
+                if (eventReminderAtMillis > 0) {
+                    navigateToEvent(eventReminderAtMillis);
+                }
+            }
+        }
+    }
+
+    private void navigateToEvent(long eventReminderAtMillis) {
+        PlannerStorage.EventLocation location = storage.findEventLocationByReminderAtMillis(eventReminderAtMillis);
+        if (location != null) {
+            // Calculate day offset from today
+            java.util.Calendar today = java.util.Calendar.getInstance();
+            today.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            today.set(java.util.Calendar.MINUTE, 0);
+            today.set(java.util.Calendar.SECOND, 0);
+            today.set(java.util.Calendar.MILLISECOND, 0);
+
+            java.util.Calendar eventDay = location.day;
+            eventDay.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            eventDay.set(java.util.Calendar.MINUTE, 0);
+            eventDay.set(java.util.Calendar.SECOND, 0);
+            eventDay.set(java.util.Calendar.MILLISECOND, 0);
+
+            long diffInMillis = eventDay.getTimeInMillis() - today.getTimeInMillis();
+            int dayOffset = (int) (diffInMillis / (24 * 60 * 60 * 1000));
+
+            // Navigate to the correct day
+            this.dayOffset = dayOffset;
+            buildDayScreen();
+
+            // Scroll to the specific hour after the screen is built
+            binding.contentContainer.post(() -> {
+                highlightEventAtHour(location.hour);
+            });
+        }
+    }
+
+    private void highlightEventAtHour(int hour) {
+        LinearLayout hoursContainer = binding.dayContainer.findViewById(R.id.hours_container);
+        if (hoursContainer != null && hour >= 0 && hour < hoursContainer.getChildCount()) {
+            View hourRow = hoursContainer.getChildAt(hour);
+            if (hourRow != null) {
+                androidx.core.widget.NestedScrollView dayScroll = binding.dayContainer.findViewById(R.id.day_scroll);
+                if (dayScroll != null) {
+                    dayScroll.smoothScrollTo(0, hourRow.getTop());
+
+                    // Briefly highlight the event
+                    hourRow.setBackgroundColor(getColor(R.color.highlight_background));
+                    hourRow.postDelayed(() -> {
+                        hourRow.setBackgroundColor(getColor(android.R.color.transparent));
+                    }, 2000);
+                }
+            }
+        }
     }
 
     private void setupDrawer() {
@@ -502,7 +611,7 @@ public class MainActivity extends AppCompatActivity {
                     int targetHour = selected.get(Calendar.HOUR_OF_DAY);
                     int targetDayIndex = getDayIndex(selected);
 
-                        scheduleReminder((Calendar) selected.clone(), targetDayIndex, offsetMinutes, text, recurrence);
+                        scheduleReminder((Calendar) selected.clone(), targetDayIndex, offsetMinutes, text, recurrence, selected.getTimeInMillis());
                     storage.saveEntry(selected, targetHour, text, offsetMinutes, selected.getTimeInMillis(), recurrence, done);
 
                     Calendar original = (Calendar) originalDay.clone();
@@ -540,7 +649,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void scheduleReminder(Calendar baseTime, int dayIndex, int offsetMinutes, String text, int recurrence) {
+    private void scheduleReminder(Calendar baseTime, int dayIndex, int offsetMinutes, String text, int recurrence, long eventReminderAtMillis) {
         Calendar reminderTime = (Calendar) baseTime.clone();
         reminderTime.add(Calendar.MINUTE, -offsetMinutes);
 
@@ -556,6 +665,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(ReminderReceiver.EXTRA_RECURRENCE, recurrence);
         intent.putExtra(ReminderReceiver.EXTRA_TRIGGER_AT, baseTime.getTimeInMillis());
         intent.putExtra(ReminderReceiver.EXTRA_OFFSET, offsetMinutes);
+        intent.putExtra(ReminderReceiver.EXTRA_EVENT_REMINDER_AT, eventReminderAtMillis);
         int requestCode = buildRequestCode(baseTime, baseTime.get(Calendar.HOUR_OF_DAY));
         intent.putExtra(ReminderReceiver.EXTRA_NOTIFICATION_ID, requestCode);
 
@@ -746,7 +856,7 @@ public class MainActivity extends AppCompatActivity {
                     int targetHour = selected.get(Calendar.HOUR_OF_DAY);
                     int targetDayIndex = getDayIndex(selected);
                     storage.saveEntry(selected, targetHour, text, 0, selected.getTimeInMillis(), recurrence, false);
-                    scheduleReminder((Calendar) selected.clone(), targetDayIndex, 0, text, recurrence);
+                    scheduleReminder((Calendar) selected.clone(), targetDayIndex, 0, text, recurrence, selected.getTimeInMillis());
                     if (targetDayIndex == getDayIndex(Calendar.getInstance())) {
                         buildDayScreen();
                     }
@@ -763,6 +873,144 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+    }
+
+    private void exportCurrentDayTasks() {
+        Calendar currentDay = Calendar.getInstance();
+        currentDay.add(Calendar.DAY_OF_MONTH, dayOffset);
+
+        // Get all tasks for current day
+        StringBuilder exportData = new StringBuilder();
+        exportData.append("ПЛАНЕР - Задачи на ").append(binding.dayName.getText()).append("\n");
+        exportData.append("Дата: ").append(binding.weekTitle.getText()).append("\n");
+        exportData.append("=".repeat(50)).append("\n\n");
+
+        boolean hasTasks = false;
+        for (int hour = 0; hour < 24; hour++) {
+            PlannerEntry entry = storage.getEntry(currentDay, hour);
+            if (entry != null && !TextUtils.isEmpty(entry.getText())) {
+                hasTasks = true;
+                String status = entry.isDone() ? "[✓]" : "[ ]";
+                String time = String.format(Locale.getDefault(), "%02d:00", hour);
+                exportData.append(String.format("%s %s - %s\n", status, time, entry.getText().trim()));
+
+                // Add reminder info if exists
+                if (entry.getReminderAtMillis() != null) {
+                    String reminderInfo = formatReminderInfo(entry);
+                    if (!reminderInfo.isEmpty()) {
+                        exportData.append("    Напоминание: ").append(reminderInfo).append("\n");
+                    }
+                }
+                exportData.append("\n");
+            }
+        }
+
+        if (!hasTasks) {
+            exportData.append("На этот день задач нет.\n");
+        }
+
+        // Show save/share dialog
+        showExportDialog(exportData.toString());
+    }
+
+    private String formatReminderInfo(PlannerEntry entry) {
+        if (entry.getReminderAtMillis() == null) return "";
+
+        Calendar reminderTime = Calendar.getInstance();
+        reminderTime.setTimeInMillis(entry.getReminderAtMillis());
+
+        String timeStr = String.format(Locale.getDefault(), "%02d:%02d",
+            reminderTime.get(Calendar.HOUR_OF_DAY), reminderTime.get(Calendar.MINUTE));
+
+        String offsetStr = "";
+        if (entry.getReminderOffsetMinutes() != null && entry.getReminderOffsetMinutes() > 0) {
+            offsetStr = String.format(" (напоминание за %d мин)", entry.getReminderOffsetMinutes());
+        }
+
+        String recurrenceStr = "";
+        if (entry.getRecurrenceType() != null && entry.getRecurrenceType() > 0) {
+            recurrenceStr = " [повторяется]";
+        }
+
+        return timeStr + offsetStr + recurrenceStr;
+    }
+
+    private void showExportDialog(String exportData) {
+        Calendar currentDay = Calendar.getInstance();
+        currentDay.add(Calendar.DAY_OF_MONTH, dayOffset);
+
+        String fileName = String.format(Locale.getDefault(), "planer_tasks_%04d-%02d-%02d.txt",
+            currentDay.get(Calendar.YEAR),
+            currentDay.get(Calendar.MONTH) + 1,
+            currentDay.get(Calendar.DAY_OF_MONTH));
+
+        new AlertDialog.Builder(this)
+            .setTitle("Экспорт задач")
+            .setMessage("Выберите действие:")
+            .setPositiveButton("Сохранить файл", (dialog, which) -> saveToFile(exportData, fileName))
+            .setNegativeButton("Поделиться", (dialog, which) -> shareFile(exportData, fileName))
+            .setNeutralButton("Отмена", null)
+            .show();
+    }
+
+    private void saveToFile(String data, String fileName) {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
+
+        // Store data temporarily
+        exportDataCache = data;
+
+        try {
+            startActivityForResult(intent, REQUEST_EXPORT_FILE);
+        } catch (Exception e) {
+            Toast.makeText(this, "Не удалось открыть проводник файлов", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shareFile(String data, String fileName) {
+        try {
+            // Create temporary file
+            java.io.File tempFile = new java.io.File(getCacheDir(), fileName);
+            java.io.FileWriter writer = new java.io.FileWriter(tempFile);
+            writer.write(data);
+            writer.close();
+
+            Uri fileUri = androidx.core.content.FileProvider.getUriForFile(
+                this,
+                getPackageName() + ".fileprovider",
+                tempFile
+            );
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Задачи из PRO101 ПЛАНЕР");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(Intent.createChooser(shareIntent, "Поделиться задачами"));
+        } catch (Exception e) {
+            Toast.makeText(this, "Ошибка при создании файла для отправки", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_EXPORT_FILE && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null && exportDataCache != null) {
+                try {
+                    getContentResolver().openOutputStream(uri).write(exportDataCache.getBytes());
+                    Toast.makeText(this, "Файл сохранен успешно", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, "Ошибка при сохранении файла", Toast.LENGTH_SHORT).show();
+                }
+                exportDataCache = null;
+            }
         }
     }
 }
