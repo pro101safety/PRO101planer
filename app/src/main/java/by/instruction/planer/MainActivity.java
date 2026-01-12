@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.activity.EdgeToEdge;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.annotation.RequiresApi;
@@ -100,6 +101,21 @@ public class MainActivity extends AppCompatActivity {
             // Apply padding to AppBarLayout to account for status bar and display cutout
             int topInset = Math.max(statusBarHeight, displayCutoutInset);
             v.setPadding(v.getPaddingLeft(), topInset, v.getPaddingRight(), v.getPaddingBottom());
+
+            return insets;
+        });
+
+        // Handle insets for FAB to prevent overlap with system navigation buttons
+        binding.fabAddTask.setOnApplyWindowInsetsListener((v, insets) -> {
+            WindowInsetsCompat windowInsets = WindowInsetsCompat.toWindowInsetsCompat(insets);
+            int navigationBarHeight = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+
+            // Update FAB layout params to add margin for navigation bar and prevent overlap with content
+            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) v.getLayoutParams();
+            int marginDp = (int) (16 * getResources().getDisplayMetrics().density);
+            layoutParams.bottomMargin = marginDp + navigationBarHeight;
+            layoutParams.topMargin = marginDp; // Add top margin to prevent overlap with last time row
+            v.setLayoutParams(layoutParams);
 
             return insets;
         });
