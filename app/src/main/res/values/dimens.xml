@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="safe_top_inset">32dp</dimen>
+    <dimen name="safe_bottom_inset">32dp</dimen>
 </resources>
 
