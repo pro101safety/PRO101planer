@@ -53,6 +53,10 @@
     <string name="documents_hint_card">Здесь вы можете создавать каталоги папок, как в windows нажатием иконки "+". В эти папки можно загружать ваши документы формата word, excel, pdf и картинки. Для всех документов можно установить напоминания.</string>
     <string name="mode_day">День</string>
     <string name="quick_tasks_label">Мои задачи на день</string>
+    <string name="injury_free_suffix">без травм</string>
+    <string name="injury_free_reset">Сбросить</string>
+    <string name="injury_free_reset_confirm">Вы точно хотите сбросить счетчик на 0?</string>
+    <string name="injury_free_reset_title">Сбросить счетчик</string>
     <string name="azbuka_title">АЗБУКА охраны труда</string>
     <string name="azbuka_description">Бесплатный мобильный инструмент для подготовки к инструктажам по охране труда. Инфографика, викторины по вопросам охраны труда.</string>
     <string name="azbuka_link">https://play.google.com/store/search?q=%D0%B0%D0%B7%D0%B1%D1%83%D0%BA%D0%B0%20%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D1%8B%20%D1%82%D1%83%D1%80%D0%B4%D0%B0&amp;c=apps&amp;hl=ru</string>

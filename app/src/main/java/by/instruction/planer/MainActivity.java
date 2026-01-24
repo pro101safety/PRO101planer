@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -66,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_POST_NOTIFICATIONS = 5001;
     private static final int REQUEST_EXPORT_FILE = 6001;
     private static final int[] REMINDER_OFFSETS = ReminderConfig.REMINDER_OFFSETS;
+    private static final String PREFS_INJURY_FREE = "injury_free_prefs";
+    private static final String KEY_INJURY_FREE_START_DATE = "injury_free_start_date";
+    private static final String INJURY_DATE_FORMAT = "yyyy-MM-dd";
 
     private ActivityMainBinding binding;
     private ActionBarDrawerToggle drawerToggle;
@@ -128,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         setupMenu();
         setupGestures();
         setupBackHandler();
+        setupInjuryFreeCounter();
         createNotificationChannel();
         requestNotificationPermission();
         binding.contentContainer.setNestedScrollingEnabled(false);
@@ -151,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleNotificationIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateInjuryFreeCounter();
     }
 
     private void handleNotificationIntent(Intent intent) {
@@ -426,6 +437,102 @@ public class MainActivity extends AppCompatActivity {
         binding.getRoot().setOnTouchListener(listener);
 
         binding.fabAddTask.setOnClickListener(v -> showQuickAddDialog());
+    }
+
+    private void setupInjuryFreeCounter() {
+        updateInjuryFreeCounter();
+        binding.injuryCounterReset.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.injury_free_reset_title)
+                    .setMessage(R.string.injury_free_reset_confirm)
+                    .setPositiveButton(R.string.injury_free_reset, (dialog, which) -> {
+                        resetInjuryFreeCounter();
+                        updateInjuryFreeCounter();
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        });
+    }
+
+    private void updateInjuryFreeCounter() {
+        int days = getInjuryFreeDays();
+        binding.injuryCounterValue.setText(String.valueOf(days));
+        binding.injuryCounterLabel.setText(formatInjuryFreeLabel(days));
+    }
+
+    private int getInjuryFreeDays() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_INJURY_FREE, MODE_PRIVATE);
+        Calendar today = Calendar.getInstance();
+        normalizeToMidnight(today);
+        String stored = prefs.getString(KEY_INJURY_FREE_START_DATE, null);
+        if (stored == null) {
+            prefs.edit().putString(KEY_INJURY_FREE_START_DATE, formatDate(today)).apply();
+            return 0;
+        }
+
+        Calendar startDate = parseDate(stored);
+        if (startDate == null) {
+            prefs.edit().putString(KEY_INJURY_FREE_START_DATE, formatDate(today)).apply();
+            return 0;
+        }
+
+        long diffMillis = today.getTimeInMillis() - startDate.getTimeInMillis();
+        int days = (int) (diffMillis / (24L * 60L * 60L * 1000L));
+        return Math.max(0, days);
+    }
+
+    private void resetInjuryFreeCounter() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_INJURY_FREE, MODE_PRIVATE);
+        Calendar today = Calendar.getInstance();
+        normalizeToMidnight(today);
+        prefs.edit().putString(KEY_INJURY_FREE_START_DATE, formatDate(today)).apply();
+    }
+
+    private Calendar parseDate(String value) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(INJURY_DATE_FORMAT, Locale.getDefault());
+            sdf.setLenient(false);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(Objects.requireNonNull(sdf.parse(value)));
+            normalizeToMidnight(calendar);
+            return calendar;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String formatDate(Calendar calendar) {
+        SimpleDateFormat sdf = new SimpleDateFormat(INJURY_DATE_FORMAT, Locale.getDefault());
+        return sdf.format(calendar.getTime());
+    }
+
+    private void normalizeToMidnight(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+    }
+
+    private String formatInjuryFreeLabel(int days) {
+        return days + " " + getDayWord(days) + " " + getString(R.string.injury_free_suffix);
+    }
+
+    private String getDayWord(int days) {
+        int absDays = Math.abs(days);
+        int lastTwo = absDays % 100;
+        if (lastTwo >= 11 && lastTwo <= 14) {
+            return "дней";
+        }
+        switch (absDays % 10) {
+            case 1:
+                return "день";
+            case 2:
+            case 3:
+            case 4:
+                return "дня";
+            default:
+                return "дней";
+        }
     }
 
     private void changeDay(int delta) {
