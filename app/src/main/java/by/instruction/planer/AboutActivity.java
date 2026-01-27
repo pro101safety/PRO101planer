@@ -10,6 +10,10 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         setTitle(R.string.menu_about);
+        android.widget.TextView versionView = findViewById(R.id.version_value);
+        if (versionView != null) {
+            versionView.setText(BuildConfig.VERSION_NAME);
+        }
     }
 }
 

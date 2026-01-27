@@ -46,7 +46,6 @@ import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.activity.EdgeToEdge;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.annotation.RequiresApi;
 
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        EdgeToEdgeHelper.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

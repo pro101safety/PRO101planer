@@ -8,7 +8,6 @@
         <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/color_background</item>
     </style>
 
