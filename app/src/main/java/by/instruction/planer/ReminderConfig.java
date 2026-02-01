@@ -12,6 +12,7 @@ public final class ReminderConfig {
     public static final int RECURRENCE_QUARTER = 4;
     public static final int RECURRENCE_YEAR = 5;
     public static final int RECURRENCE_HOUR = 6;
+    public static final int RECURRENCE_HALF_YEAR = 7;
 
     public static final int[] REMINDER_OFFSETS = {0, 15, 30, 60};
 }

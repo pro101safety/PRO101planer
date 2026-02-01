@@ -102,6 +102,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.VH> {
                 return context.getString(R.string.reminder_repeat_month);
             case ReminderConfig.RECURRENCE_QUARTER:
                 return context.getString(R.string.reminder_repeat_quarter);
+            case ReminderConfig.RECURRENCE_HALF_YEAR:
+                return context.getString(R.string.reminder_repeat_half_year);
             case ReminderConfig.RECURRENCE_YEAR:
                 return context.getString(R.string.reminder_repeat_year);
             default:

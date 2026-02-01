@@ -130,6 +130,7 @@
     <string name="reminder_repeat_week">Каждую неделю</string>
     <string name="reminder_repeat_month">Каждый месяц</string>
     <string name="reminder_repeat_quarter">Каждый квартал</string>
+    <string name="reminder_repeat_half_year">Каждые пол года</string>
     <string name="reminder_repeat_year">Каждый год</string>
     <string name="note_add">Добавить заметку</string>
     <string name="note_add_text">Текстовая заметка</string>

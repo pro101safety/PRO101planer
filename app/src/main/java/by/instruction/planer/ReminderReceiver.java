@@ -82,6 +82,9 @@ public class ReminderReceiver extends BroadcastReceiver {
                 case ReminderConfig.RECURRENCE_QUARTER:
                     next.add(Calendar.MONTH, 3);
                     break;
+                case ReminderConfig.RECURRENCE_HALF_YEAR:
+                    next.add(Calendar.MONTH, 6);
+                    break;
                 case ReminderConfig.RECURRENCE_YEAR:
                     next.add(Calendar.YEAR, 1);
                     break;

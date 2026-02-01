@@ -9,7 +9,7 @@ public class PlannerEntry {
     private Integer reminderOffsetMinutes;
     private Long reminderAtMillis;
     private boolean done = false;
-    private Integer recurrenceType; // 0 - none, 1 - day, 2 - week, 3 - month, 4 - quarter, 5 - year
+    private Integer recurrenceType; // 0 - none, 1 - day, 2 - week, 3 - month, 4 - quarter, 5 - year, 6 - hour, 7 - half-year
 
     public PlannerEntry() {
     }

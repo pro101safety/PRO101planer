@@ -127,6 +127,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return view.getResources().getString(R.string.reminder_repeat_month);
             case ReminderConfig.RECURRENCE_QUARTER:
                 return view.getResources().getString(R.string.reminder_repeat_quarter);
+            case ReminderConfig.RECURRENCE_HALF_YEAR:
+                return view.getResources().getString(R.string.reminder_repeat_half_year);
             case ReminderConfig.RECURRENCE_YEAR:
                 return view.getResources().getString(R.string.reminder_repeat_year);
             default:

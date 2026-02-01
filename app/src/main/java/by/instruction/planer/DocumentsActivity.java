@@ -296,6 +296,7 @@ public class DocumentsActivity extends AppCompatActivity implements DocumentAdap
                 getString(R.string.reminder_repeat_week),
                 getString(R.string.reminder_repeat_month),
                 getString(R.string.reminder_repeat_quarter),
+                getString(R.string.reminder_repeat_half_year),
                 getString(R.string.reminder_repeat_year)
         };
 
@@ -341,6 +342,8 @@ public class DocumentsActivity extends AppCompatActivity implements DocumentAdap
             case 5:
                 return ReminderConfig.RECURRENCE_QUARTER;
             case 6:
+                return ReminderConfig.RECURRENCE_HALF_YEAR;
+            case 7:
                 return ReminderConfig.RECURRENCE_YEAR;
             default:
                 return ReminderConfig.RECURRENCE_NONE;
