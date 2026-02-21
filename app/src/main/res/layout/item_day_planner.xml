@@ -24,7 +24,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/black"
+            android:textColor="@color/main_list_text_primary"
             android:textStyle="bold"
             app:autoSizeTextType="uniform"
             app:autoSizeMinTextSize="14sp"
